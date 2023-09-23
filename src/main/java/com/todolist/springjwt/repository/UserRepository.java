@@ -9,7 +9,9 @@ import com.todolist.springjwt.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-  Optional<User> findByUsername(String username);
+  User findByUsername(String username);
+
+  User findByEmail(String email);
 
   Boolean existsByUsername(String username);
 
