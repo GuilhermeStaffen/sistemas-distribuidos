@@ -12,12 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.todolist.springjwt.repository.TodoRepository;
 import com.todolist.springjwt.repository.UserRepository;
-import com.todolist.springjwt.security.services.UserDetailsServiceImpl;
 
 import jakarta.validation.Valid;
 
@@ -35,8 +33,6 @@ public class TodoController {
 
     @Autowired
     TodoRepository todoRepository;
-
-    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
@@ -93,14 +89,14 @@ public class TodoController {
         Todo todoToShare = todoRepository.findById(todoRequest.getId()).orElse(null);
 
         if (currentUser == null || todoToShare == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível compartilhar tarefa #" + todoToShare.getId() + " | Usuário ou Tarefa não encontrada!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Não foi possível compartilhar tarefa #" + todoToShare.getId() + " | Usuário ou Tarefa não encontrada!"));
         }else if (!todoToShare.getUsersWithAccess().contains(currentUser)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível compartilhar tarefa #" + todoToShare.getId() + " | Sem permissão para compartilhar tarefa!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Não foi possível compartilhar tarefa #" + todoToShare.getId() + " | Sem permissão para compartilhar tarefa!"));
         }
 
         User userToShareWith = userRepository.findByEmail(todoRequest.getEmail());
         if (userToShareWith == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possível compartilhar tarefa #" + todoToShare.getId() + " | Não localizamos o usuário com quem deseja compartilhar");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Não foi possível compartilhar tarefa #" + todoToShare.getId() + " | Não localizamos o usuário com quem deseja compartilhar"));
         }
         todoToShare.getUsersWithAccess().add(userToShareWith);
         todoRepository.save(todoToShare);
