@@ -27,7 +27,7 @@ docker run -p 8082:8082 --name todolistapi8082  --net spring-net -e MYSQL_HOST=m
 docker run -p 8083:8083 --name todolistapi8083  --net spring-net -e MYSQL_HOST=mysqldb -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=8083 -d --restart unless-stopped todolistapi
 ```
 
-6. Ainda na pasta do projeto, executar o nginx (caso esteja em um SO diferente de windows, baixar o [NGINX](https://nginx.org/en/download.html), configura-lo da mesma que no arquivo [\nginx\conf\nginx.conf](.\nginx\conf\nginx.conf)):
+6. Ainda na pasta do projeto, executar o nginx (caso esteja em um SO diferente de windows, baixar o [NGINX](https://nginx.org/en/download.html), configura-lo da mesma que no arquivo [\nginx\conf\nginx.conf](./nginx/conf/nginx.conf)):
 ```
 cd .\nginx\
 .\nginx.exe
