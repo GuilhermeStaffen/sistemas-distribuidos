@@ -1,0 +1,3 @@
+2023/09/24 03:33:49 [emerg] 39944#34864: CreateFile() "C:\Users\Guilherme\Desktop\sistemas-distribuidos\nginx/..\logs\access.log" failed (3: O sistema não pode encontrar o caminho especificado)
+2023/09/24 03:34:44 [emerg] 18072#26012: CreateFile() "C:\Users\Guilherme\Desktop\sistemas-distribuidos\nginx/..\logs\access.log" failed (3: O sistema não pode encontrar o caminho especificado)
+2023/09/24 03:35:19 [emerg] 20624#4148: CreateFile() "C:\Users\Guilherme\Desktop\sistemas-distribuidos\nginx/..\logs\access.log" failed (3: O sistema não pode encontrar o caminho especificado)
