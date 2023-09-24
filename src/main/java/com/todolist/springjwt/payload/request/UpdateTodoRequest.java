@@ -3,7 +3,7 @@ package com.todolist.springjwt.payload.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CreateTodoRequest {
+public class UpdateTodoRequest {
   @NotBlank
   @Size(min = 3, max = 20)
   private String title;

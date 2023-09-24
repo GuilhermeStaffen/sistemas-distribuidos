@@ -42,4 +42,13 @@ public class SignupRequest {
     this.password = password;
   }
 
+  @Override
+	public String toString() {
+		return "{" +
+        "username='" + username + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				'}';
+	}
+
 }

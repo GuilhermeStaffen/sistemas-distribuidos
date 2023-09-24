@@ -19,4 +19,10 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
       "JOIN users u ON at.user_id = u.id " +
       "WHERE t.active = true AND u.username = :username", nativeQuery = true)
   ArrayList<Object[]> findActiveTodosWithAccess(@Param("username") String username);
+
+    @Query(value = "SELECT t.id, t.title, t.description, t.active FROM todos t " +
+      "JOIN access_todo at ON t.id = at.todo_id " +
+      "JOIN users u ON at.user_id = u.id " +
+      "WHERE t.active = false AND u.username = :username", nativeQuery = true)
+  ArrayList<Object[]> findInactiveTodosWithAccess(@Param("username") String username);
 }
