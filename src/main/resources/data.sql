@@ -25,7 +25,7 @@ CREATE TABLE if not exists `users` (
 CREATE TABLE if not exists `todos` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `active` tinyint(1) DEFAULT 1,
-  `description` varchar(500) NOT NULL,
+  `description` text NOT NULL,
   `title` varchar(100) NOT NULL,
   `dat_last_change` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_user_last_change` bigint(20) NOT NULL,

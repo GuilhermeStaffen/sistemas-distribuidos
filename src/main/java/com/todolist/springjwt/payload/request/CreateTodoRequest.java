@@ -5,11 +5,10 @@ import jakarta.validation.constraints.Size;
 
 public class CreateTodoRequest {
   @NotBlank
-  @Size(min = 3, max = 20)
+  @Size(max = 100)
   private String title;
 
   @NotBlank
-  @Size(max = 50)
   private String description;
 
   public String getTitle() {

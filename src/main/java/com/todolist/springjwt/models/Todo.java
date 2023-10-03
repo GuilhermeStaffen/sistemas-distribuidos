@@ -15,7 +15,7 @@ public class Todo {
     @Column(length = 100, nullable = false)
     private String title;
 
-    @Column(length = 500, nullable = false)
+    @Column(nullable = false)
     private String description;
 
     @Column(columnDefinition = "boolean default true")
