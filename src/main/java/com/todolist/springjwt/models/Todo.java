@@ -1,5 +1,7 @@
 package com.todolist.springjwt.models;
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +28,13 @@ public class Todo {
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> usersWithAccess = new HashSet<>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "dat_last_change", nullable = false)
+    private Date dateLastChange = new Date();
+
+    @Column(name = "id_user_last_change", nullable = false)
+    private Long idUserLastChange;
 
     public Long getId() {
         return id;
@@ -65,5 +74,21 @@ public class Todo {
 
     public void setUsersWithAccess(Set<User> usersWithAccess) {
         this.usersWithAccess = usersWithAccess;
+    }
+
+    public Date getDateLastChange() {
+        return dateLastChange;
+    }
+
+    public void setDateLastChange(Date dateLastChange) {
+        this.dateLastChange = dateLastChange;
+    }
+
+    public Long getIdUserLastChange() {
+        return idUserLastChange;
+    }
+
+    public void setIdUserLastChange(Long idUserLastChange) {
+        this.idUserLastChange = idUserLastChange;
     }
 }

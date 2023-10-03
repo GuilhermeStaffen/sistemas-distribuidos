@@ -23,9 +23,11 @@ import com.todolist.springjwt.repository.UserRepository;
 import jakarta.validation.Valid;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 @RestController
 @RequestMapping("/todos")
@@ -59,6 +61,7 @@ public class TodoController {
         todo.setTitle(todoRequest.getTitle());
         todo.setDescription(todoRequest.getDescription());
         todo.setActive(true);
+        todo.setIdUserLastChange(user.getId());
         todo.getUsersWithAccess().add(user);
 
         Todo savedTodo = todoRepository.save(todo);
@@ -178,8 +181,18 @@ public class TodoController {
             return ResponseEntity.notFound().build();
         }
 
+        if (updateRequest.getChangeDate().compareTo(existingTodo.getDateLastChange()) < 0
+                && currentUser.getId() != existingTodo.getIdUserLastChange()) {
+            logger.error("Tarefa foi editada por outro usuário");
+            logger.info("Finalizando processo de edicao de tarefa");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new MessageResponse("Tarefa foi editada por outro usuário, por favor atualize a página"));
+        }
+
         existingTodo.setTitle(updateRequest.getTitle());
         existingTodo.setDescription(updateRequest.getDescription());
+        existingTodo.setDateLastChange(new Date());
+        existingTodo.setIdUserLastChange(currentUser.getId());
 
         todoRepository.save(existingTodo);
         logger.info("Finalizando processo de edicao de tarefa");

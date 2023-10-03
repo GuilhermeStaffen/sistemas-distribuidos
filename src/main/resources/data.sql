@@ -15,18 +15,21 @@ CREATE TABLE if not exists `roles` (
   `name` varchar(20) DEFAULT NULL
 ) ENGINE=ndb DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE if not exists `todos` (
-  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
-  `active` tinyint(1) DEFAULT 1,
-  `description` varchar(500) NOT NULL,
-  `title` varchar(100) NOT NULL
-) ENGINE=ndb DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE if not exists `users` (
   `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
   `email` varchar(50) DEFAULT NULL,
   `password` varchar(120) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL
+) ENGINE=ndb DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE if not exists `todos` (
+  `id` bigint(20) AUTO_INCREMENT PRIMARY KEY,
+  `active` tinyint(1) DEFAULT 1,
+  `description` varchar(500) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `dat_last_change` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_user_last_change` bigint(20) NOT NULL,
+  FOREIGN KEY (`id_user_last_change`) REFERENCES `users` (`id`)
 ) ENGINE=ndb DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE if not exists `user_roles` (
