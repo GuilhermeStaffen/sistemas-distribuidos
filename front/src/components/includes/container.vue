@@ -41,14 +41,6 @@ import appLabel from "./appLabel.vue";
 var axios = require("axios");
 import myconfig from "../../myconfig.js";
 
-var config = {
-  method: "get",
-  url: myconfig.api + "/todos",
-  headers: {
-    Authorization: "Bearer " + localStorage.token,
-  },
-};
-
 export default {
   name: "container",
   data() {
@@ -63,6 +55,13 @@ export default {
       this.$router.push("/new");
     },
     fetchData: function () {
+      var config = {
+        method: "get",
+        url: myconfig.api + "/todos",
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+        },
+      };
       axios(config)
         .then((response) => {
           this.info = response.data.activedTodos;
@@ -78,9 +77,14 @@ export default {
   },
   mounted() {
     this.fetchData();
-    setInterval(() => {
+
+    this.intervalId = setInterval(() => {
       this.fetchData();
-    }, 10000); 
+    }, 10000);
+  },
+  beforeDestroy() {
+    // Limpe o temporizador ao destruir o componente
+    clearInterval(this.intervalId);
   },
   components: {
     appLabel,
@@ -92,7 +96,7 @@ export default {
 <style lang="css" scoped>
 #newTodo {
   margin: 50px 0px 10px 0px;
-  width:200px;
+  width: 200px;
   padding: 10px;
   color: white;
   background-color: #0c3661;
