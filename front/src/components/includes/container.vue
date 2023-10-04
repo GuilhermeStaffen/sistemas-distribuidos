@@ -62,6 +62,9 @@ export default {
           Authorization: "Bearer " + localStorage.token,
         },
       };
+      if (this.errored){
+        this.loading = true;
+      }
       axios(config)
         .then((response) => {
           this.info = response.data.activedTodos;
@@ -83,7 +86,6 @@ export default {
     }, 10000);
   },
   beforeDestroy() {
-    // Limpe o temporizador ao destruir o componente
     clearInterval(this.intervalId);
   },
   components: {

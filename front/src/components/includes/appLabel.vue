@@ -6,17 +6,46 @@
     </div>
     <p>{{ description }}</p>
     <div class="right">
-      <button style="background-color: #0c3661;">Compartilhar</button>
-      <button style="background-color: #0C611F;">Editar</button>
-      <button style="background-color: #7D0F44;">Concluir</button>
+      <button style="background-color: #0c3661">Compartilhar</button>
+      <button style="background-color: #0c611f">Editar</button>
+      <button v-on:click="done" style="background-color: #7d0f44">
+        Concluir
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+var axios = require("axios");
+import myconfig from "../../myconfig.js";
+
 export default {
   name: "appLabel",
   props: ["title", "description", "id"],
+  methods: {
+    done: function () {
+      var config = {
+        method: "post",
+        url: myconfig.api + "/todos/" + this.id + "/done",
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+        },
+      };
+      axios(config)
+        .then((response) => {
+          window.alert(response.data.message);
+          this.$router.go(this.$router.currentRoute)
+        })
+          .catch((error) => {
+            if (error.response && error.response.status === 401) {
+              window.alert("Erro inesperado, tente novamente");
+            } else {
+              window.alert(error.response.data.message);
+            }
+          })
+        .finally(() => {});
+    },
+  },
 };
 </script>
 
@@ -55,7 +84,7 @@ button {
   justify-content: space-between;
 }
 
-.right{
+.right {
   width: 100%;
   display: flex;
   flex-direction: row;
