@@ -163,7 +163,7 @@ public class TodoController {
 
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateTodo(@PathVariable Long id, @RequestBody UpdateTodoRequest updateRequest) {
         System.out.println("");
@@ -199,7 +199,7 @@ public class TodoController {
                 .body(new MessageResponse("Tarefa #" + existingTodo.getId() + " editada com sucesso!"));
     }
 
-    @PutMapping("/{id}/done")
+    @PostMapping("/{id}/done")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> markTodoAsDone(@PathVariable Long id) {
         System.out.println("");

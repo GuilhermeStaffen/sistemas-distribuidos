@@ -18,6 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+
 import com.todolist.springjwt.security.jwt.AuthEntryPointJwt;
 import com.todolist.springjwt.security.jwt.AuthTokenFilter;
 import com.todolist.springjwt.security.services.UserDetailsServiceImpl;
@@ -59,26 +60,26 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  
-
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf(csrf -> csrf.disable())
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/signup").permitAll()
-            .requestMatchers("/auth/signin").permitAll()
-            .anyRequest().authenticated());
+      http.csrf(csrf -> csrf.disable())
+          .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+          .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/signup").permitAll()
+              .requestMatchers("/auth/signin").permitAll()
+              .anyRequest().authenticated());
 
-    http.authenticationProvider(authenticationProvider());
+      http.authenticationProvider(authenticationProvider());
 
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    
-    http.cors(httpSecurityCorsConfigurer -> 
-    httpSecurityCorsConfigurer.configurationSource(request -> 
-       new CorsConfiguration().applyPermitDefaultValues()
-    ));
-    
-    return http.build();
+      http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+      http.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer
+          .configurationSource(request -> {
+              CorsConfiguration configuration = new CorsConfiguration();
+              configuration.applyPermitDefaultValues();
+              return configuration;
+          }));
+
+      return http.build();
   }
 }
