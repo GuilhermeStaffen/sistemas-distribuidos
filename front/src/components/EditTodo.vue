@@ -5,7 +5,9 @@
       <div class="row-95">
         <p v-on:click="back">Voltar</p>
         <div class="create">
-          <h2>Criar Tarefa</h2>
+          <h2>Editar Tarefa {{ this.$route.params.id }}</h2>
+          <p v-on:click="reloading">Atualizar</p>
+
           <input type="text" v-model="title" placeholder="Título" />
           <textarea
             type="text"
@@ -13,7 +15,7 @@
             placeholder="Descrição"
             rows="10"
           />
-          <button v-on:click="submit">Criar Tarefa</button>
+          <button v-on:click="submit">Editar Tarefa</button>
         </div>
       </div>
     </section>
@@ -26,7 +28,7 @@ var axios = require("axios");
 import myconfig from "../myconfig.js";
 
 export default {
-  name: "Home",
+  name: "Edit",
   components: {
     Header,
   },
@@ -35,9 +37,40 @@ export default {
       errors: [],
       title: null,
       description: null,
+      changeDate: null,
+      loading: true,
     };
   },
+  mounted() {
+    this.reloading();
+  },
   methods: {
+    reloading: function () {
+      var configGet = {
+        method: "get",
+        url: myconfig.api + "/todos/" + this.$route.params.id,
+        headers: {
+          Authorization: "Bearer " + localStorage.token,
+        },
+      };
+      axios(configGet)
+        .then((response) => {
+          this.title = response.data.title;
+          this.description = response.data.description;
+          this.changeDate = response.data.openDate;
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            window.alert("Erro inesperado, tente novamente");
+          } else {
+            window.alert(error.response.data.message);
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+
     back: function () {
       this.$router.back();
     },
@@ -54,13 +87,14 @@ export default {
       } else {
         var config = {
           method: "post",
-          url: myconfig.api + "/todos",
+          url: myconfig.api + "/todos/" + this.$route.params.id,
           headers: {
             Authorization: "Bearer " + localStorage.token,
           },
           data: {
             title: this.title,
             description: this.description,
+            changeDate: this.changeDate,
           },
         };
         axios(config)
@@ -170,5 +204,52 @@ button:hover {
 
 h2 {
   padding-bottom: 5px;
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #0c3661;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 }
 </style>

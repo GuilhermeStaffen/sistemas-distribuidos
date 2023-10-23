@@ -7,6 +7,8 @@
       <div class="row-95">
         <div class="column">
           <h2>Suas Tarefas</h2>
+          <p v-if="ativo" v-on:click="swap">Mostrar Inativos</p>
+          <p v-else v-on:click="swap">Mostrar Ativos</p>
           <section v-if="errored">
             <p>
               Pedimos desculpas, não estamos conseguindo recuperar as
@@ -26,6 +28,7 @@
                   :title="label.title"
                   :description="label.description"
                   :id="label.id"
+                  :active="label.active"
                 />
               </li>
             </ul>
@@ -48,26 +51,41 @@ export default {
       info: null,
       loading: true,
       errored: false,
+      ativo: true,
     };
   },
   methods: {
     newTodo: function () {
       this.$router.push("/new");
     },
+    swap() {
+      this.ativo = !this.ativo;
+      this.fetchData();
+    },
     fetchData: function () {
+      let endpoint;
+      if (this.ativo) {
+        endpoint = "/todos";
+      } else {
+        endpoint = "/todos/done";
+      }
       var config = {
         method: "get",
-        url: myconfig.api + "/todos",
+        url: myconfig.api + endpoint,
         headers: {
           Authorization: "Bearer " + localStorage.token,
         },
       };
-      if (this.errored){
+      if (this.errored) {
         this.loading = true;
       }
       axios(config)
         .then((response) => {
-          this.info = response.data.activedTodos;
+          if (this.ativo) {
+            this.info = response.data.activedTodos;
+          } else {
+            this.info = response.data.inactivedTodos;
+          }
         })
         .catch((error) => {
           this.errored = true;
@@ -207,5 +225,12 @@ h2 {
     height: 72px;
     opacity: 0;
   }
+}
+
+p {
+  margin: 30px 0px 30px 0px;
+  cursor: pointer;
+  font-size: 20px;
+  text-decoration: underline;
 }
 </style>

@@ -67,7 +67,7 @@ export default {
         this.emailSignup == null ||
         this.emailSignup == "" ||
         !this.validEmail(this.emailSignup) ||
-        this.userSignup.length > 50
+        this.emailSignup.length > 50
       ) {
         this.errors.push("Preencha o email com menos de 50 caracteres");
       }
@@ -84,7 +84,6 @@ export default {
       }
 
       if (this.errors.length) {
-        console.log(this.errors);
         window.alert("Corrija os seguintes erros: " + this.errors);
       } else {
         var config = {
@@ -133,7 +132,6 @@ export default {
       }
 
       if (this.errors.length) {
-        console.log(this.errors);
         window.alert("Corrija os seguintes erros: " + this.errors);
       } else {
         var config = {

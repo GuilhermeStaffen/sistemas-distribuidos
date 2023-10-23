@@ -8,6 +8,7 @@ let router = new VueRouter({
         {path:'/', name:'home', component: () =>import('./components/Home')},
         {path:'/auth', name:'auth', component: () =>import('./components/Auth')},
         {path:'/new', name:'new', component: () =>import('./components/NewTodo')},
+        {path:'/edit/:id', name:'edit', component: () =>import('./components/EditTodo')},
     ]
 });
 
