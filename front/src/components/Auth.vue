@@ -33,7 +33,7 @@
 
 <script>
 var axios = require("axios");
-import myconfig from "../myconfig.js";
+//import myconfig from "../myconfig.js";
 import Header from "./includes/header.vue";
 
 export default {
@@ -88,7 +88,7 @@ export default {
       } else {
         var config = {
           method: "post",
-          url: myconfig.api + "/auth/signup",
+          url: "http://localhost:9090/auth/signup",
           data: {
             username: this.userSignup,
             email: this.emailSignup,
@@ -136,7 +136,7 @@ export default {
       } else {
         var config = {
           method: "post",
-          url: myconfig.api + "/auth/signin",
+          url: "http://localhost:9090/auth/signin",
           data: {
             email: this.emailLogin,
             password: this.passwordLogin,

@@ -83,7 +83,7 @@ export default {
       } else {
         var configShare = {
           method: "post",
-          url: myconfig.api + "/todos/share",
+          url: "http://localhost:9090/todos/share",
           headers: {
             Authorization: "Bearer " + localStorage.token,
           },

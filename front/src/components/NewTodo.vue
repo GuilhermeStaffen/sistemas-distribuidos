@@ -23,7 +23,7 @@
 <script>
 import Header from "./includes/header.vue";
 var axios = require("axios");
-import myconfig from "../myconfig.js";
+//import myconfig from "../myconfig.js";
 
 export default {
   name: "Home",
@@ -54,7 +54,7 @@ export default {
       } else {
         var config = {
           method: "post",
-          url: myconfig.api + "/todos",
+          url: "http://localhost:9090/todos",
           headers: {
             Authorization: "Bearer " + localStorage.token,
           },

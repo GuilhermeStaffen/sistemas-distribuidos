@@ -25,7 +25,7 @@
 <script>
 import Header from "./includes/header.vue";
 var axios = require("axios");
-import myconfig from "../myconfig.js";
+//import myconfig from "../myconfig.js";
 
 export default {
   name: "Edit",
@@ -48,7 +48,7 @@ export default {
     reloading: function () {
       var configGet = {
         method: "get",
-        url: myconfig.api + "/todos/" + this.$route.params.id,
+        url: "http://localhost:9090/todos/" + this.$route.params.id,
         headers: {
           Authorization: "Bearer " + localStorage.token,
         },
@@ -87,7 +87,7 @@ export default {
       } else {
         var config = {
           method: "post",
-          url: myconfig.api + "/todos/" + this.$route.params.id,
+          url: "http://localhost:9090/todos/" + this.$route.params.id,
           headers: {
             Authorization: "Bearer " + localStorage.token,
           },
