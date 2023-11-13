@@ -36,12 +36,12 @@ docker network connect spring-net mysql2
 8. Conceda acesso aos usuários remotos no mysql1 (usar senha "root"):
 ```
 docker exec -it mysql1 mysql -uroot -p
-CREATE USER 'root'@'todolistapi8081.spring-net' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi8081.spring-net';
-CREATE USER 'root'@'todolistapi8082.spring-net' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi8082.spring-net';
-CREATE USER 'root'@'todolistapi8083.spring-net' IDENTIFIED BY 'root';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi8083.spring-net';
+CREATE USER 'root'@'todolistapi9091.spring-net' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi9091.spring-net';
+CREATE USER 'root'@'todolistapi9092.spring-net' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi9092.spring-net';
+CREATE USER 'root'@'todolistapi9093.spring-net' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi9093.spring-net';
 ```
 
 Quando finalizar, execute o comando "quit"
@@ -50,11 +50,11 @@ Quando finalizar, execute o comando "quit"
 ```
 docker exec -it mysql2 mysql -uroot -p
 
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi8081.spring-net';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi9091.spring-net';
 
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi8082.spring-net';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi9092.spring-net';
 
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi8083.spring-net';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'todolistapi9093.spring-net';
 ```
 
 Quando finalizar, execute o comando "quit"
@@ -63,9 +63,9 @@ Quando finalizar, execute o comando "quit"
 ```
 mvn clean package
 docker build -t todolistapi .
-docker run -p 8081:8081 --name todolistapi8081  --net spring-net -e MYSQL_HOST=mysql1 -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=8081 -d --restart unless-stopped todolistapi
-docker run -p 8082:8082 --name todolistapi8082  --net spring-net -e MYSQL_HOST=mysql2 -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=8082 -d --restart unless-stopped todolistapi
-docker run -p 8083:8083 --name todolistapi8083  --net spring-net -e MYSQL_HOST=mysql1 -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=8083 -d --restart unless-stopped todolistapi
+docker run -p 9091:9091 --name todolistapi9091  --net spring-net -e MYSQL_HOST=mysql1 -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=9091 -d --restart unless-stopped todolistapi
+docker run -p 9092:9092 --name todolistapi9092  --net spring-net -e MYSQL_HOST=mysql2 -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=9092 -d --restart unless-stopped todolistapi
+docker run -p 9093:9093 --name todolistapi9093  --net spring-net -e MYSQL_HOST=mysql1 -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_PORT=3306 -e SERVER_PORT=9093 -d --restart unless-stopped todolistapi
 ```
 
 
